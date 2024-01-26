@@ -1,0 +1,7 @@
+{
+    "require": {
+        "nesbot/carbon": "^2.72",
+        "tecnickcom/tcpdf": "^6.6",
+        "dompdf/dompdf": "^2.0"
+    }
+}
