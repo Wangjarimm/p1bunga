@@ -117,7 +117,7 @@
                             <div class="card bg-primary text-white mb-4">
                                 <div class="card-body">Jumlah Dokter</div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#"><?= $countDokter ?></a>
+                                    <a class="small text-white stretched-link" href="datadokter.php"><?= $countDokter ?></a>
                                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                 </div>
                             </div>
@@ -126,7 +126,7 @@
                             <div class="card bg-success text-white mb-4">
                                 <div class="card-body">Jumlah Pasien</div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#"><?= $countPasien ?></a>
+                                    <a class="small text-white stretched-link" href="datareservasi.php"><?= $countPasien ?></a>
                                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                 </div>
                             </div>

@@ -25,7 +25,7 @@ $dokter = query("SELECT d.*,j.*
 if (isset($_POST["submit"])) {
 
 
-    if (dataDiri($_POST,$jenis) > 0) {
+    if (dataDiri($_POST, $jenis) > 0) {
         echo
         "<script>
                 alert('Reservasi berhasil ditambahkan');
@@ -112,7 +112,25 @@ $old_tujuan = isset($_POST['tujuan']) ? htmlspecialchars($_POST['tujuan']) : '';
                                     </div>
                                     <div class="form-group">
                                         <label>Tanggal Reservasi</label>
-                                        <input type="date" class="form-control" placeholder="Masukkan tanggal reservasi" required name="tgl_reservasi" value="<?= date('Y-m-d'); ?>" readonly>
+                                        <input type="date" class="form-control" placeholder="Masukkan tanggal reservasi" required name="tgl_reservasi">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Jam</label>
+                                        <select name="jam_reservasi" id="jam" class="form-control">
+                                            <option selected disabled>Pilih Jam Reservasi</option>
+                                            <?php
+                                            $options = array(
+                                                "08:00-10:00",
+                                                "10:00-12:00",
+                                                "13:00-15:00"
+                                            );
+
+                                            foreach ($options as $option) {
+                                                $isDisabled = isJamReservasiTerisi($id_dokter, $tgl_reservasi, $option) ? 'disabled' : '';
+                                                echo "<option value=\"$option\" $isDisabled>$option</option>";
+                                            }
+                                            ?>
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label>Tujuan</label>

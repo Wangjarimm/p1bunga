@@ -52,7 +52,7 @@ function register($data)
 
     $query = "INSERT INTO users (nik, nama_lengkap, jenis_kelamin, tempat_lahir, tanggal_lahir, alamat, username, password, role)
               VALUES ('$nik', '$fullname', '$jenis_kelamin', '$tempat_lahir', '$tanggal_lahir', '$alamat', '$username', '$hash', 'pasien')";
-    
+
     mysqli_query($connect, $query);
 
     return mysqli_affected_rows($connect);
@@ -80,7 +80,7 @@ function editDokter($data)
     $id = $data['id'];
     $nama_dokter = mysqli_real_escape_string($connect, $data['nama_dokter']);
     $spesialis = stripslashes($data["spesialis"]);
-    
+
 
     $query = "UPDATE dokter SET 
                 nama = '$nama_dokter',
@@ -133,7 +133,7 @@ function editJadwal($data)
     return mysqli_affected_rows($connect);
 }
 
-function dataDiri($data,$jenis)
+function dataDiri($data, $jenis)
 {
     global $connect;
 
@@ -175,12 +175,30 @@ function dataDiri($data,$jenis)
         $row_jumlah_pasien = mysqli_fetch_assoc($result_jumlah_pasien);
 
         $jumlah_pasien = $row_jumlah_pasien['jumlah_pasien'];
+        $jam_reservasi = mysqli_real_escape_string($connect, $data['jam_reservasi']);
 
-        $batas_maksimal_pasien = 7;
+        $query_check_time_slot = "SELECT COUNT(*) AS jumlah_reservasi FROM pasien WHERE id_dokter = '$id_dokter' AND tanggal_reservasi = '$tgl_reservasi' AND jam_reservasi = '$jam_reservasi'";
+        $result_check_time_slot = mysqli_query($connect, $query_check_time_slot);
+        $row_check_time_slot = mysqli_fetch_assoc($result_check_time_slot);
+        $jumlah_reservasi_time_slot = $row_check_time_slot['jumlah_reservasi'];
 
-        if ($jumlah_pasien < $batas_maksimal_pasien) {
+        $batas_maksimal_pasien = 3;
+
+        if ($jumlah_pasien > $batas_maksimal_pasien) {
+            // Jumlah pasien sudah mencapai batas maksimal
+            echo "<script>
+                alert('Maaf, jumlah pasien pada hari $nama_hari_input pada tanggal $tgl_reservasi sudah mencapai batas maksimal.');
+            </script>";
+            return false;
+        } elseif ($jumlah_reservasi_time_slot > 0) {    
+            // Slot waktu yang dipilih sudah terisi
+            echo "<script>
+                alert('Maaf, jam reservasi $jam_reservasi sudah terisi. Silakan pilih jam lain atau di hari lain.');
+            </script>";
+            return false;
+        } else {
             // Jika jumlah pasien masih kurang dari 3, tambahkan data pasien ke dalam tabel
-            $query_insert_pasien = "INSERT INTO pasien (id_user,id_dokter, jenis, tanggal_reservasi) VALUES ('$id_user','$id_dokter','$jenis','$tgl_reservasi')";
+            $query_insert_pasien = "INSERT INTO pasien (id_user,id_dokter, jenis, tanggal_reservasi,jam_reservasi) VALUES ('$id_user','$id_dokter','$jenis','$tgl_reservasi','$jam_reservasi')";
 
             mysqli_query($connect, $query_insert_pasien);
 
@@ -204,12 +222,6 @@ function dataDiri($data,$jenis)
             header("Location: struk.php?id_pasien=$id_pasien&pesan=$pesan_berhasil");
 
             return mysqli_affected_rows($connect);
-        } else {
-            // Jumlah pasien sudah mencapai batas maksimal
-            echo "<script>
-                alert('Maaf, jumlah pasien pada hari $nama_hari_input pada tanggal $tgl_reservasi sudah mencapai batas maksimal.');
-            </script>";
-            return false;
         }
     } else {
         // Dokter tidak memiliki jadwal pada hari tersebut
@@ -218,4 +230,22 @@ function dataDiri($data,$jenis)
         </script>";
         return false;
     }
+}
+
+
+function isJamReservasiTerisi($id_dokter, $tgl_reservasi, $jam_reservasi)
+{
+    global $connect;
+
+    $query_check_time_slot = "SELECT COUNT(*) AS jumlah_reservasi FROM pasien WHERE id_dokter = '$id_dokter' AND tanggal_reservasi = '$tgl_reservasi' AND jam_reservasi = '$jam_reservasi'";
+    $result_check_time_slot = mysqli_query($connect, $query_check_time_slot);
+
+    // Debugging: Tambahkan baris-baris ini untuk memeriksa hasil kueri
+    var_dump($result_check_time_slot);
+    $row_check_time_slot = mysqli_fetch_assoc($result_check_time_slot);
+    var_dump($row_check_time_slot);
+
+    $jumlah_reservasi_time_slot = $row_check_time_slot['jumlah_reservasi'];
+
+    return $jumlah_reservasi_time_slot > 0;
 }

@@ -6,7 +6,7 @@ use Dompdf\Dompdf;
 
 extract($_POST);
 
-$id_pasien = $_GET['id'];
+$id_pasien = $_GET['id_pasien'];
 $struk = query("SELECT p.*,u.*,a.*,d.nama,d.spesialis,j.* FROM pasien p INNER JOIN users u ON p.id_user = u.id_user INNER JOIN antrian a ON a.id_pasien = p.id INNER JOIN dokter d ON p.id_dokter = d.id INNER JOIN jadwal_dokter j ON j.id_dokter = d.id WHERE p.id = $id_pasien")[0];
 
 $html = '';
@@ -108,6 +108,10 @@ $html .= '
             <label>Jenis:</label>
             <div class="value">' . $struk['jenis'] . '</div>
         </div>
+        <div class="form-group">
+            <label>Jam Reservasi:</label>
+            <div class="value">' . $struk['jam_reservasi'] . '</div>
+        </div>
     </div>
     <div class="col-md-6 w-100">
         
@@ -127,4 +131,3 @@ $dompdf->loadHtml($html);
 $dompdf->setPaper("A4", "portrait");
 $dompdf->render();
 $dompdf->stream("Struk.pdf");
-?>

@@ -215,6 +215,7 @@ if (isset($_POST['download_pdf'])) {
                                         <th>Tujuan</th>
                                         <th>Jenis</th>
                                         <th>Tanggal Reservasi</th>
+                                        <th>Jam Reservasi</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -233,6 +234,7 @@ if (isset($_POST['download_pdf'])) {
                                         <th>Tujuan</th>
                                         <th>Jenis</th>
                                         <th>Tanggal Reservasi</th>
+                                        <th>Jam Reservasi</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </tfoot>
@@ -253,6 +255,7 @@ if (isset($_POST['download_pdf'])) {
                                             <td><?= $pasien['tujuan']; ?></td>
                                             <td><?= $pasien['jenis']; ?></td>
                                             <td><?= $pasien['tanggal_reservasi']; ?></td>
+                                            <td><?= $pasien['jam_reservasi']; ?></td>
                                             <td><a href="deletereservasi.php?id=<?= $pasien['id_pasien']; ?>" class="btn btn-danger" onclick="return confirm('Yakin mau di hapus?')">Hapus</a> </td>
                                         </tr>
                                         <?php $i++ ?>

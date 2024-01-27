@@ -74,6 +74,7 @@ $query = mysqli_query($connect, "SELECT p.*,p.id AS id_pasien, u.*,a.*,d.nama,d.
                                     <th>Tujuan</th>
                                     <th>Jenis</th>
                                     <th>Tanggal Reservasi</th>
+                                    <th>Jam Reservasi</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -94,6 +95,7 @@ $query = mysqli_query($connect, "SELECT p.*,p.id AS id_pasien, u.*,a.*,d.nama,d.
                                         <td><?= $pasien['tujuan']; ?></td>
                                         <td><?= $pasien['jenis']; ?></td>
                                         <td><?= $pasien['tanggal_reservasi']; ?></td>
+                                        <td><?= $pasien['jam_reservasi']; ?></td>
                                         <td>
                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $pasien['id_pasien']; ?>">
                                                 Detail
@@ -176,11 +178,15 @@ $query = mysqli_query($connect, "SELECT p.*,p.id AS id_pasien, u.*,a.*,d.nama,d.
                                                                                     <label>Jenis:</label>
                                                                                     <div class="value"> <?= $pasien['jenis']; ?></div>
                                                                                 </div>
+                                                                                <div class="form-group">
+                                                                                    <label>Jam Reservasi:</label>
+                                                                                    <div class="value"> <?= $pasien['jam_reservasi']; ?></div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="card-footer">
-                                                                        <a href="create_pdf.php?id=<?= $pasien['id_pasien']; ?>" type="button" class="btn btn-primary" target="_blank">Unduh sebagai PDF</a>
+                                                                        <a href="create_pdf.php?id_pasien=<?= $pasien['id_pasien']; ?>" type="button" class="btn btn-primary" target="_blank">Unduh sebagai PDF</a>
                                                                     </div>
                                                                 </div>
 

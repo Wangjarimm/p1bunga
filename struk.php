@@ -128,6 +128,10 @@ $struk = query("SELECT p.*,u.*,a.*,d.nama,d.spesialis,j.* FROM pasien p INNER JO
                                                 <label>Jenis:</label>
                                                 <div class="value"> <?= $struk['jenis']; ?></div>
                                             </div>
+                                            <div class="form-group">
+                                                <label>Jam Reservasi:</label>
+                                                <div class="value"> <?= $struk['jam_reservasi']; ?></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
